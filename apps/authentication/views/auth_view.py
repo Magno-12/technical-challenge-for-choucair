@@ -60,29 +60,14 @@ class AuthenticationViewSet(GenericViewSet):
         serializer.is_valid(raise_exception=True)
         user_data = serializer.validated_data
 
-        print(f"Datos validados por AuthenticationSerializer: {user_data}")
-        print(f"Contraseña proporcionada: {user_data.get('password')}")
-
         try:
             user = User.objects.get(email=user_data['email'])
         except User.DoesNotExist:
             raise AuthenticationFailed(
                 "User with the provided email does not exist")
 
-        print(f"Contraseña proporcionada: {user_data['password']}")
-
-        # Mensaje de depuración para verificar el usuario recuperado
-        print(f"Usuario recuperado de la base de datos: {user}")
-
-        # Mensaje de depuración para verificar la contraseña almacenada
-        print(f"Contraseña almacenada: {user.password}")
-
-        # Verifica que la contraseña proporcionada coincida con la almacenada
         if not check_password(user_data['password'], user.password):
             raise AuthenticationFailed("Incorrect password")
-
-        # Mensaje de depuración para verificar que la contraseña coincidió
-        print("Contraseña coincidió correctamente.")
 
         refresh = RefreshToken.for_user(user)
 
