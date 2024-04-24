@@ -70,3 +70,13 @@ For a detailed exploration of the API endpoints, developers can utilize tools li
 - **Swagger**: Offers a web-based UI that renders Swagger-compliant APIs. If the project includes a Swagger schema, you can navigate to the API documentation URL (typically `/swagger/`) to see a list of endpoints, models, and try out the API directly in the browser.
 
 Both of these tools are instrumental in developing, testing, and documenting RESTful services and will provide comprehensive insights into the API's capabilities.
+
+### Image integration test
+
+- Run the coverage test:
+
+```coverage
+coverage run manage.py test apps
+```
+![image](https://github.com/Magno-12/technical-challenge-for-choucair/assets/66977118/bacd770e-b828-4d09-8eec-12662257908f)
+
