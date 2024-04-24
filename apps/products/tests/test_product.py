@@ -77,10 +77,10 @@ class ProductViewSetTest(TransactionTestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
 
     def test_create_product_with_image(self):
-        test_image_path = os.path.join(settings.MEDIA_ROOT, 'product_image', 'IMG_20220708_094204.jpg')
+        test_image_path = os.path.join(settings.MEDIA_ROOT, 'product_image', 'IMG_20220708_094204.jpg') #en esta linea cambiar el nombre de la imagen
         with open(test_image_path, 'rb') as image_file:
             image_content = image_file.read()
-        image_file = SimpleUploadedFile('IMG_20220708_094204.jpg', image_content, content_type='image/jpeg')
+        image_file = SimpleUploadedFile('IMG_20220708_094204.jpg', image_content, content_type='image/jpeg') #en esta linea cambiar el nombre de la imagen
 
         product_data = {
             "name": "New Product",
