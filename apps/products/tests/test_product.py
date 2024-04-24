@@ -1,4 +1,9 @@
+import os
+
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TransactionTestCase
+from django.conf import settings
+
 from rest_framework import status
 
 from apps.products.models.product import Product
@@ -67,11 +72,26 @@ class ProductViewSetTest(TransactionTestCase):
             "description": "New Description",
             "price": 15.0,
             "stock": 10,
-            # "image": "new_image.jpg",
         }
         response = self.client.post('/product/create_product/', data=product_data, HTTP_AUTHORIZATION=f'Bearer {self.token}')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
 
+    def test_create_product_with_image(self):
+        test_image_path = os.path.join(settings.MEDIA_ROOT, 'product_image', 'IMG_20220708_094204.jpg')
+        with open(test_image_path, 'rb') as image_file:
+            image_content = image_file.read()
+        image_file = SimpleUploadedFile('IMG_20220708_094204.jpg', image_content, content_type='image/jpeg')
+
+        product_data = {
+            "name": "New Product",
+            "description": "New Description",
+            "price": 15.0,
+            "stock": 10,
+            "image": image_file,
+        }
+
+        response = self.client.post('/product/create_product/', data=product_data, HTTP_AUTHORIZATION=f'Bearer {self.token}')
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED, response.data)
 
     def test_partial_update_product(self):
         updated_data = {
