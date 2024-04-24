@@ -16,7 +16,7 @@ class ProductViewSet(GenericViewSet):
     queryset = Product.objects.filter(is_active=True)
 
     def get_permissions(self):
-        if self.action in ['create', 'update', 'partial_update', 'destroy', 'buy']:
+        if self.action in ['create', 'partial_update', 'destroy', 'buy']:
             return [IsAuthenticated()]
         return [AllowAny()]
 
