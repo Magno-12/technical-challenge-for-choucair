@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.decorators import action
-from rest_framework.exceptions import NotFound
+from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.viewsets import GenericViewSet
@@ -103,7 +103,32 @@ class ProductViewSet(GenericViewSet):
         serializer.save(user=request.user)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
-    @action(detail=True, methods=['delete'], permission_classes=[IsAuthenticated])
+    def partial_update(self, request, pk=None):
+        """
+        Updates a specific product by its ID.
+
+        ---
+        Body:
+            {
+                "name": "str",
+                "description": "str",
+                "price": "float",
+                "stock": "int",
+                "image": "upload"
+            }
+
+        responses:
+            200 OK: Product successfully updated.
+            403 Forbidden: Not allowed to update this product.
+        """
+        product = self.get_object()
+        if request.user != product.user:
+            raise PermissionDenied("You do not have permission to update this product.")
+        serializer = self.get_serializer(product, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
     def destroy(self, request, pk=None):
         """
         Deletes a specific product by its ID.

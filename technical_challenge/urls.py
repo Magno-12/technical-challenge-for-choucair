@@ -42,5 +42,6 @@ urlpatterns = [
     ),
     path('', include('apps.authentication.urls')),
     path('', include('apps.users.urls')),
+    path('', include('apps.products.urls')),
 ]
 urlpatterns += staticfiles_urlpatterns()
