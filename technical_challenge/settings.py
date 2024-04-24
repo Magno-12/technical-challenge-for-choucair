@@ -54,12 +54,12 @@ THIRD_PARTY_APPS = [
 CUSTOM_APPS = [
     'apps.default',
     'apps.authentication',
-    # 'apps.users',
+    'apps.users',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
-# AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
