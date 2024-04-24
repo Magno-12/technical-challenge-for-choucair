@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 from apps.default.models.base_model import BaseModel
+from apps.users.models.user_manager import CustomUserManager
 
 
 class User(AbstractUser, BaseModel):
@@ -15,11 +16,13 @@ class User(AbstractUser, BaseModel):
     )
 
     USERNAME_FIELD = 'email'
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
+
+    objects = CustomUserManager()
 
     def __str__(self):
         return f'{self.email}'
 
     def save(self, *args, **kwargs):
-        print(f"Guardando contraseña: {self.password}")
         return super().save(*args, **kwargs)
